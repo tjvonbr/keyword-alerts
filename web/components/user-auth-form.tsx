@@ -109,10 +109,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       >
         {isGitHubLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.facebook className="mr-2 h-4 w-4" />
-        )}{" "}
-        Github
+        ) : "Google"}
       </button>
     </div>
   )
