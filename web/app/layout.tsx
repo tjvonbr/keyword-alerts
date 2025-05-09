@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "../styles/globals.css";
+import { Inter } from "next/font/google"
+import localFont from "next/font/local"
+import { Navigation } from "@/components/Navigation";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const fontSans = Inter({
   subsets: ["latin"],
-});
+  variable: "--font-sans",
+})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const fontHeading = localFont({
+  src: "../assets/fonts/CalSans-Regular.ttf",
+  variable: "--font-heading",
+})
 
 export const metadata: Metadata = {
-  title: "EarlyBird",
-  description: "The EarlyBird gets the worm!",
+  title: "Keyword Sentry",
+  description: "Monitor social media groups for keywords related to your business",
 };
 
 export default function RootLayout({
@@ -25,9 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${fontSans.variable} ${fontHeading.variable} antialiased`}
       >
-        {children}
+        <main className="min-h-[calc(100vh-64px)]">{children}</main>
       </body>
     </html>
   );

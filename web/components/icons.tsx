@@ -1,16 +1,18 @@
-import {
-  Facebook,
-  LucideIcon,
-  MessageSquareText,
-  PartyPopper,
-  UsersRound,
-} from "lucide-react"
+import { ArrowRight, ChevronLeft, Earth, Home, Laptop, ListTodo, Moon, NotebookPen, Siren, Star, Sun, X, Loader2, Facebook } from "lucide-react";
 
-export type IconName = keyof typeof Icons
-
-export const Icons: Record<string, LucideIcon> = {
+export const Icons = {
+  arrowRight: ArrowRight,
+  earth: Earth,
+  frq: NotebookPen,
+  close: X,
+  choice: ListTodo,
   facebook: Facebook,
-  messages: MessageSquareText,
-  party: PartyPopper,
-  users: UsersRound
-} as const
+  home: Home,
+  laptop: Laptop,
+  left: ChevronLeft,
+  logo: Siren,
+  moon: Moon,
+  spinner: Loader2,
+  star: Star,
+  sun: Sun,
+}
