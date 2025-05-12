@@ -10,9 +10,9 @@ export interface SiteConfig {
 }
 
 export const siteConfig: SiteConfig = {
-  name: "Keyword Sentry",
+  name: "Keyword Alerts AI",
   description: "Monitor social media groups for keywords related to your business",
-  url: "https://keywordsentry.com",
+  url: "https://keywordalerts.ai",
   ogImage: "https://tx.shadcn.com/og.jpg",
   links: {
     twitter: "https://twitter.com/shadcn",

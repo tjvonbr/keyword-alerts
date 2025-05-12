@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "../styles/globals.css";
 import { Inter } from "next/font/google"
 import localFont from "next/font/local"
-import { Navigation } from "@/components/Navigation";
 
 const fontSans = Inter({
   subsets: ["latin"],

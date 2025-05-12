@@ -6,6 +6,7 @@ import { Client } from "postmark"
 import { siteConfig } from "@/config/site"
 import { db } from "./db"
 import { env } from "@/env.mjs"
+
 const postmarkClient = new Client(env.POSTMARK_API_TOKEN)
 
 export const authOptions: NextAuthOptions = {
@@ -97,7 +98,7 @@ export const authOptions: NextAuthOptions = {
         firstName: dbUser.firstName,
         lastName: dbUser.lastName,
         email: dbUser.email,
-        picture: dbUser.image,
+        industry: dbUser.industry,
       }
     },
   },

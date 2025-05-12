@@ -13,24 +13,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id            String    @id @default(uuid())
-  firstName     String?
-  lastName      String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  groups        Group[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  @@map("users")
+enum Industry {
+  HOUSE_CLEANING
+  ELECTRICIAN
+  PLUMBER
+  CAR_REPAIR
+  OTHER
 }
 
-model Group {
-  id          String      @id @default(uuid())
-  name        String
-  users       User[]
+model User {
+  id            String      @id @default(uuid())
+  firstName     String?
+  lastName      String?
+  email         String      @unique
+  industry      Industry
+  emailVerified DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
-  @@map("groups")
+  @@map("users")
 }
