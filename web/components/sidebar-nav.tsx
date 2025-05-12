@@ -1,6 +1,6 @@
 "use client"
 
-import { sidebarNavItems } from "@/lib/config"
+import { dashboardConfig, SidebarNavItem } from "@/config/dashboard"
 import Link from "next/link"
 import { Icons } from "./icons"
 import { usePathname } from "next/navigation"
@@ -11,8 +11,8 @@ export default function SidebarNav() {
 
   return (
     <nav className="grid items-start gap-2">
-      {sidebarNavItems.map((item, index) => {
-        const Icon = Icons[item.icon]
+      {dashboardConfig.sidebarNav.map((item: SidebarNavItem, index: number) => {
+        const Icon = Icons[item.icon as keyof typeof Icons]
         return (
           item.href && (
             <Link key={index} href={item.disabled ? "/" : item.href}>

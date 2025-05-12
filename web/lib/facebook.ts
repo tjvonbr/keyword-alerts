@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Facebook SDK service for accessing groups
 
 // Define types for Facebook SDK

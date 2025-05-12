@@ -18,7 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form"
 import { Industry } from "@prisma/client"
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>
 
 type FormData = z.infer<typeof userAuthSchema>
 

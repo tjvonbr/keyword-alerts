@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import Script from 'next/script';
+import React from 'react';
 import { useEffect } from 'react';
 
 function FacebookSDK() {
   useEffect(() => {
-    window.fbAsyncInit = function() {
-      window.FB.init({
+    (window as any).fbAsyncInit = function() {
+      (window as any).FB.init({
         appId: '1775246439684951',
         cookie: true,
         xfbml: true,

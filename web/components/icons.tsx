@@ -1,4 +1,4 @@
-import { ArrowRight, ChevronLeft, Earth, Home, Laptop, ListTodo, Moon, NotebookPen, Siren, Star, Sun, X, Loader2, Facebook, LucideProps } from "lucide-react";
+import { ArrowRight, ChevronLeft, Earth, Home, Laptop, ListTodo, Moon, NotebookPen, Siren, Star, Sun, X, Loader2, Facebook } from "lucide-react";
 
 export const Icons = {
   arrowRight: ArrowRight,

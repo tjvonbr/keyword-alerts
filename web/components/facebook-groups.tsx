@@ -4,11 +4,8 @@ import { useState, useEffect } from 'react';
 
 export default function FacebookGroups() {
   const [loading, setLoading] = useState(false);
-  const [groups, setGroups] = useState([]);
   const [error, setError] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [isFacebookConnected, setIsFacebookConnected] = useState<boolean>(false)
-  const [facebookUserId, setFacebookUserId] = useState<string | null>(null)
 
   // Check if FB SDK is ready 
   const [isFbReady, setIsFbReady] = useState(false);
@@ -68,7 +65,6 @@ export default function FacebookGroups() {
         // Get access token
         const token = response.authResponse.accessToken;
         setAccessToken(token as string);
-        setFacebookUserId(response.authResponse.userID)
         window.FB.api(
           `/${response.authResponse.userID}/groups`,
           (response) => {
@@ -81,20 +77,6 @@ export default function FacebookGroups() {
       }
     })
   }
-
-  // Logout function
-  const handleLogout = () => {
-    if (window.FB) {
-      window.FB.logout(function(response) {
-        setAccessToken(null);
-        setGroups([]);
-      });
-    } else {
-      // If FB SDK isn't available, just clear the state
-      setAccessToken(null);
-      setGroups([]);
-    }
-  };
 
   return (
     <div className="facebook-groups-container">
@@ -109,40 +91,13 @@ export default function FacebookGroups() {
           {loading ? 'Loading...' : !isFbReady ? 'Waiting for Facebook SDK...' : 'Login with Facebook'}
         </button>
       ) : (
-        <button onClick={handleLogout} className="logout-button">
+        <button onClick={() => console.log('log out')} className="logout-button">
           Logout
         </button>
       )}
 
       {error && <div className="error-message">{error}</div>}
       {/* {!fbSDKLoaded && !error && <div className="info-message">Initializing Facebook integration...</div>} */}
-      
-      {groups.length > 0 ? (
-        <div className="groups-list">
-          <h3>Your Groups ({groups.length})</h3>
-          <ul>
-            {groups.map(group => (
-              <li key={group.id} className="group-item">
-                <div className="group-icon">
-                  {group.icon && <img src={group.icon} alt={group.name} />}
-                </div>
-                <div className="group-details">
-                  <h4>{group.name}</h4>
-                  {group.description && <p>{group.description}</p>}
-                  <div className="group-meta">
-                    <span>Privacy: {group.privacy}</span>
-                    {group.member_count && <span>Members: {group.member_count}</span>}
-                    {group.administrator && <span className="admin-badge">Admin</span>}
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : accessToken && !loading ? (
-        <p>No groups found.</p>
-      ) : null
-    }
     </div>
   )
 } 

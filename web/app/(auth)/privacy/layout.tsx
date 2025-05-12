@@ -1,8 +1,5 @@
-import { buttonVariants } from "@/components/ui/button"
 import { MainNav } from "@/components/main-nav"
 import { SiteFooter } from "@/components/site-footer"
-import { Link } from "lucide-react"
-import { cn } from "@/lib/utils"
 import { dashboardConfig } from "@/config/dashboard"
 
 interface PrivacyPolicyLayoutProps {
