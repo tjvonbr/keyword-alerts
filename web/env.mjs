@@ -16,7 +16,7 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,
-    POSTMARK_API_TOKEN: z.string().min(1),
+    POSTMARK_API_TOKEN: process.env.POSTMARK_API_TOKEN,
     EMAIL_FROM: process.env.EMAIL_FROM,
   },
 })
