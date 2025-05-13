@@ -2,7 +2,6 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { NextAuthOptions } from "next-auth"
 import EmailProvider from "next-auth/providers/email"
 import { Client } from "postmark"
-import { siteConfig } from "@/config/site"
 import { db } from "./db"
 import { env } from "@/env.mjs"
 
@@ -22,33 +21,22 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     EmailProvider({
-      from: env.SMTP_FROM,
+      from: env.EMAIL_FROM,
       sendVerificationRequest: async ({ identifier, url, provider }) => {
-        const user = await db.user.findUnique({
-          where: {
-            email: identifier,
-          },
-          select: {
-            emailVerified: true,
-          },
-        })
+        // const user = await db.user.findUnique({
+        //   where: {
+        //     email: identifier,
+        //   },
+        //   select: {
+        //     emailVerified: true,
+        //   },
+        // })
 
-        const templateId = user?.emailVerified
-          ? env.POSTMARK_SIGN_IN_TEMPLATE
-          : env.POSTMARK_ACTIVATION_TEMPLATE
-        
-          if (!templateId) {
-          throw new Error("Missing template id")
-        }
-
-        const result = await postmarkClient.sendEmailWithTemplate({
-          TemplateId: parseInt(templateId),
+        const result = await postmarkClient.sendEmail({
           To: identifier,
           From: provider.from as string,
-          TemplateModel: {
-            action_url: url,
-            product_name: siteConfig.name,
-          },
+          Subject: "Verify your email",
+          TextBody: `Please verify your email by clicking the link below: ${url}`,
           Headers: [
             {
               // Set this to prevent Gmail from threading emails.
