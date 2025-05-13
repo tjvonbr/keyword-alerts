@@ -11,7 +11,7 @@ export default function TosPage() {
 
           <section className="mb-8">
             <h2 className="text-xl font-semibold mb-3">2. Use of Service</h2>
-            <p className="mb-4">Our service is provided "as is" without warranties of any kind. We do not guarantee that the service will be uninterrupted, secure, or error-free.</p>
+            <p className="mb-4">Our service is provided &quot;as is&quot; without warranties of any kind. We do not guarantee that the service will be uninterrupted, secure, or error-free.</p>
             <p className="mb-4">You are responsible for maintaining the confidentiality of your account and password, and you agree to accept responsibility for all activities that occur under your account.</p>
           </section>
 

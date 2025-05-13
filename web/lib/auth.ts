@@ -1,7 +1,6 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { NextAuthOptions } from "next-auth"
 import EmailProvider from "next-auth/providers/email"
-import GitHubProvider from "next-auth/providers/github"
 import { Client } from "postmark"
 import { siteConfig } from "@/config/site"
 import { db } from "./db"
@@ -13,6 +12,7 @@ export const authOptions: NextAuthOptions = {
   // huh any! I know.
   // This is a temporary fix for prisma client.
   // @see https://github.com/prisma/prisma/issues/16117
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   adapter: PrismaAdapter(db as any),
   session: {
     strategy: "jwt",
@@ -21,10 +21,6 @@ export const authOptions: NextAuthOptions = {
     signIn: "/sign-in",
   },
   providers: [
-    GitHubProvider({
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
-    }),
     EmailProvider({
       from: env.SMTP_FROM,
       sendVerificationRequest: async ({ identifier, url, provider }) => {
