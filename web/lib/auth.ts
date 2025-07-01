@@ -8,6 +8,7 @@ import { db } from "./db";
 const postmarkClient = new Client(env.POSTMARK_API_TOKEN);
 
 export const authOptions: NextAuthOptions = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   adapter: PrismaAdapter(db as any),
   session: {
     strategy: "jwt",
