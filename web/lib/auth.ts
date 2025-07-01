@@ -1,17 +1,13 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { NextAuthOptions } from "next-auth"
-import EmailProvider from "next-auth/providers/email"
-import { Client } from "postmark"
-import { db } from "./db"
-import { env } from "@/env.mjs"
+import { env } from "@/env.mjs";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { NextAuthOptions } from "next-auth";
+import EmailProvider from "next-auth/providers/email";
+import { Client } from "postmark";
+import { db } from "./db";
 
-const postmarkClient = new Client(env.POSTMARK_API_TOKEN)
+const postmarkClient = new Client(env.POSTMARK_API_TOKEN);
 
 export const authOptions: NextAuthOptions = {
-  // huh any! I know.
-  // This is a temporary fix for prisma client.
-  // @see https://github.com/prisma/prisma/issues/16117
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   adapter: PrismaAdapter(db as any),
   session: {
     strategy: "jwt",
@@ -23,14 +19,22 @@ export const authOptions: NextAuthOptions = {
     EmailProvider({
       from: env.EMAIL_FROM,
       sendVerificationRequest: async ({ identifier, url, provider }) => {
-        // const user = await db.user.findUnique({
-        //   where: {
-        //     email: identifier,
-        //   },
-        //   select: {
-        //     emailVerified: true,
-        //   },
-        // })
+        const user = await db.user.findUnique({
+          where: {
+            email: identifier,
+          },
+          select: {
+            emailVerified: true,
+          },
+        });
+
+        const templateId = user?.emailVerified
+          ? env.POSTMARK_SIGN_IN_TEMPLATE
+          : env.POSTMARK_ACTIVATION_TEMPLATE;
+
+        if (!templateId) {
+          throw new Error("Missing template id");
+        }
 
         const result = await postmarkClient.sendEmail({
           To: identifier,
@@ -45,10 +49,10 @@ export const authOptions: NextAuthOptions = {
               Value: new Date().getTime() + "",
             },
           ],
-        })
+        });
 
         if (result.ErrorCode) {
-          throw new Error(result.Message)
+          throw new Error(result.Message);
         }
       },
     }),
@@ -56,25 +60,25 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ token, session }) {
       if (token && session.user) {
-        session.user.name = token.name
-        session.user.email = token.email
-        session.user.image = token.picture
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.image = token.picture;
       }
 
-      return session
+      return session;
     },
     async jwt({ token, user }) {
       const dbUser = await db.user.findFirst({
         where: {
           email: token.email as string,
         },
-      })
+      });
 
       if (!dbUser) {
         if (user) {
-          token.id = user?.id
+          token.id = user?.id;
         }
-        return token
+        return token;
       }
 
       return {
@@ -83,7 +87,7 @@ export const authOptions: NextAuthOptions = {
         lastName: dbUser.lastName,
         email: dbUser.email,
         industry: dbUser.industry,
-      }
+      };
     },
   },
-}
+};
