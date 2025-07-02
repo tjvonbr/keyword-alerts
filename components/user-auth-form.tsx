@@ -31,37 +31,17 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
+    console.log(data);
 
     try {
-      const response = await fetch("http://localhost:3001/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-        }),
-      });
-
-      if (!response.ok) {
-        return toast({
-          title: "Something went wrong.",
-          description: "Your sign up request failed. Please try again.",
-          variant: "destructive",
-        });
-      }
-
-      const user = await response.json();
-
-      const signInResult = await signIn("email", {
-        email: user.email,
+      const signInResult = await signIn("postmark", {
+        email: data.email,
         redirect: false,
         callbackUrl: searchParams?.get("from") || "/dashboard",
       });
 
       setIsLoading(false);
+      console.log('SIGN IN RESULT: ', signInResult);
 
       if (!signInResult?.ok) {
         return toast({

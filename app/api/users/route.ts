@@ -10,6 +10,7 @@ const userSchema = z.object({
 
 export async function POST(req: NextRequest) {
   const json = await req.json()
+  console.log("JSON", json);
   const body = userSchema.parse(json)
 
   const user = await prisma.user.findFirst({
