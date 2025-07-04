@@ -4,13 +4,21 @@ import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 import { UserAuthForm } from "@/components/user-auth-form"
 import { Suspense } from "react"
+import { auth } from "@/auth"
+import { redirect } from "next/navigation"
 
 export const metadata = {
   title: "Create an account",
   description: "Create an account to get started.",
 }
 
-export default function RegisterPage() {
+export default async function RegisterPage() {
+  const session = await auth();
+  
+  if (session?.user) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="container grid h-screen w-screen flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="hidden h-full bg-muted lg:block p-9">
