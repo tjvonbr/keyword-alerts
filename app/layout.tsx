@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import "../styles/globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { SessionProvider } from "next-auth/react";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -28,8 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${fontSans.variable} ${fontHeading.variable} antialiased`}>
-        <main className="min-h-[calc(100vh-64px)]">{children}</main>
-        <Toaster />
+        <SessionProvider>
+          <main className="min-h-[calc(100vh-64px)]">{children}</main>
+          <Toaster />
+        </SessionProvider>
       </body>
     </html>
   );
