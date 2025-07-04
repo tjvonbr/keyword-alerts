@@ -22,7 +22,7 @@ export default function LoginPage() {
         )}
       >
         <>
-          <Icons.left className="mr-2 h-4 w-4" />
+          <Icons.left className="h-4 w-4" />
           Back
         </>
       </Link>
