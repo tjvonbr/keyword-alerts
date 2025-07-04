@@ -2,16 +2,24 @@ import { Icons } from "@/components/icons";
 import { LoginForm } from "@/components/login-form";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { auth } from "@/auth";
 import { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Sign-in",
   description: "Sign-in to your account",
 };
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const session = await auth();
+  
+  if (session?.user) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
       <Link
