@@ -27,9 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${fontSans.variable} ${fontHeading.variable} antialiased`}
-      >
+      <body className={`${fontSans.variable} ${fontHeading.variable} antialiased`}>
         <main className="min-h-[calc(100vh-64px)]">{children}</main>
         <Toaster />
       </body>
