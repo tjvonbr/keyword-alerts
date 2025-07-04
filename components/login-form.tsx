@@ -33,7 +33,7 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
     setIsLoading(true);
 
     try {
-      const signInResult = await signIn("email", {
+      const signInResult = await signIn("resend", {
         email: data.email.toLowerCase().trim(),
         redirect: false,
         callbackUrl: searchParams?.get("from") || "/dashboard",
