@@ -30,7 +30,6 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
   const searchParams = useSearchParams();
 
   async function onSubmit(data: FormData) {
-    console.log("DATA: ", data);
     setIsLoading(true);
 
     try {

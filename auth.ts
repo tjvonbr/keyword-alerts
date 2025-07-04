@@ -1,14 +1,31 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import Postmark from "next-auth/providers/postmark"
 import NextAuth from "next-auth"
-import { prisma } from "./lib/prisma"
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import { prisma } from "@/lib/prisma"
+import Resend from "next-auth/providers/resend"
+import { Resend as ResendClient } from "resend"
  
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
+  pages: {
+    signIn: "/sign-in",
+    newUser: "/sign-up",
+    verifyRequest: "/verify-email",
+  },
   providers: [
-    Postmark({
-      apiKey: process.env.POSTMARK_API_TOKEN,
-      from: process.env.EMAIL_FROM,
-    })
+    Resend({
+      from: "no-reply@keywordalerts.ai",
+      sendVerificationRequest: async ({ url, identifier: email }) => {
+        const resend = new ResendClient(process.env.RESEND_API_TOKEN)
+
+        await resend.emails.send({
+          from: "no-reply@keywordalerts.ai",
+          to: email,
+          subject: "Verify your email",
+          html: `<p>Click <a href="${url}">here</a> to verify your email</p>`,
+        })
+
+        return
+      },
+    }),
   ],
 })

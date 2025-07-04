@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -15,6 +15,7 @@ import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { userAuthSchema } from "@/lib/validations/auth";
 import { Form } from "./ui/form";
+import { createUser } from "@/lib/actions/auth";
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -28,20 +29,33 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
-    console.log(data);
 
     try {
-      const signInResult = await signIn("postmark", {
+      // Create FormData for server action
+      const formData = new FormData();
+      formData.append("firstName", data.firstName);
+      formData.append("lastName", data.lastName);
+      formData.append("email", data.email);
+
+      // First create the user with server action
+      const result = await createUser(formData);
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      // Then sign in with email
+      const signInResult = await signIn("resend", {
         email: data.email,
         redirect: false,
         callbackUrl: searchParams?.get("from") || "/dashboard",
       });
 
       setIsLoading(false);
-      console.log('SIGN IN RESULT: ', signInResult);
 
       if (!signInResult?.ok) {
         return toast({
@@ -51,16 +65,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         });
       }
 
-      return toast({
-        title: "Check your email",
-        description:
-          "We sent you a login link. Be sure to check your spam too.",
-      });
+      // Redirect to verify email page
+      router.push("/verify-email");
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
       return toast({
-        title: "Something went wrong.",
-        description: "Your sign up request failed. Please try again.",
+        title: "Something went wrong!",
+        description: error instanceof Error ? error.message : "Your sign up request failed. Please try again.",
         variant: "destructive",
       });
     }

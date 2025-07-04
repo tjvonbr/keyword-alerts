@@ -23,7 +23,7 @@ export default async function MarketingPage() {
             Get real-time notifications when potential customers mention your keywords on Twitter, Reddit, Facebook, and other platforms—so you can engage instantly and convert searches into sales.
           </p>
           <div className="space-x-4">
-            <Link href="/sign-in" className={cn(buttonVariants({ size: "lg" }))}>
+            <Link href="/sign-up" className={cn(buttonVariants({ size: "lg" }))}>
               Get started
             </Link>
             <Link
