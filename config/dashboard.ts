@@ -33,14 +33,19 @@ export const dashboardConfig: DashboardConfig = {
   mainNav: [],
   sidebarNav: [
     {
-      title: "AP US History",
-      href: "/ap-united-states-history",
-      icon: "star",
+      title: "Groups",
+      href: "/groups",
+      icon: "users",
     },
     {
-      title: "AP World History",
-      href: "/ap-world-history-modern",
-      icon: "earth",
+      title: "Leads",
+      href: "/leads",
+      icon: "lead",
+    },
+    {
+      title: "Messages",
+      href: "/messages",
+      icon: "messages",
     },
   ],
 }
