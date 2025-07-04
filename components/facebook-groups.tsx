@@ -1,5 +1,6 @@
 "use client";
 
+import { signOut } from "@/auth";
 import { useEffect, useState } from "react";
 
 export default function FacebookGroups() {
@@ -22,7 +23,6 @@ export default function FacebookGroups() {
 
     // If FB is already loaded, check to see if user is logged in
     if (checkFbLoaded()) {
-      console.log("FB is loaded");
       // window.FB.getLoginStatus((response) => {
       //   const { status } = response
 
@@ -31,7 +31,6 @@ export default function FacebookGroups() {
       //     setFacebookUserId(response.authResponse.userID)
       //     setAccessToken(response.authResponse.accessToken as string)
       //   } else if (status === 'not_authorized') {
-      //     console.log('not authorized')
       //   }
       // })
 
@@ -61,7 +60,6 @@ export default function FacebookGroups() {
 
     window.FB.login(function (response) {
       if (response.authResponse) {
-        console.log(response);
         // Get access token
         const token = response.authResponse.accessToken;
         setAccessToken(token as string);
@@ -93,7 +91,7 @@ export default function FacebookGroups() {
         </button>
       ) : (
         <button
-          onClick={() => console.log("log out")}
+          onClick={() => signOut()}
           className="logout-button"
         >
           Logout
