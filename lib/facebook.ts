@@ -131,3 +131,26 @@ export const logoutFromFacebook = (): Promise<void> => {
     });
   });
 }; 
+
+export const fakeFacebookGroups = [
+    {
+      id: "1",
+      name: "Scottsdale Living",
+    },
+    {
+      id: "2",
+      name: "Go Gilbert",
+    },
+    {
+      id: "3",
+      name: "Chandler Living",
+    },
+    {
+      id: "3",
+      name: "East Mesa Living",
+    },
+    {
+      id: "3",
+      name: "North Phoenix Living",
+    }
+];

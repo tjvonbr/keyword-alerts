@@ -22,6 +22,7 @@ model User {
   emailVerified DateTime?
   accounts  Account[]
   sessions  Session[]
+  socialIntegrations SocialIntegrations[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -66,4 +67,38 @@ model VerificationToken {
  
   @@id([identifier, token])
   @@map("verification_tokens")
+}
+
+model SocialIntegrations {
+  id String @id @default(uuid())
+  platformId String
+  platform Platform @relation(fields: [platformId], references: [id])
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("social_integrations")
+}
+
+model Platform {
+  id String @id @default(uuid())
+  name String
+  channels Channel[]
+  socialIntegrations SocialIntegrations[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("platforms")
+}
+
+model Channel {
+  id String @id @default(uuid())
+  name String
+  platformId String
+  platform Platform @relation(fields: [platformId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("channels")
 }

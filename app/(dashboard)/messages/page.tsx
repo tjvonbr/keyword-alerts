@@ -1,15 +1,7 @@
-'use client'
-
-import dynamic from "next/dynamic";
 import Head from "next/head";
 import React from "react";
 
-const FacebookGroups = dynamic(
-  () => import('../../../components/facebook-groups'),
-  { ssr: false }
-);
-
-export default function FacebookGroupsPage() {
+export default function MessagesPage() {
   return (
     <div>
       <Head>
@@ -23,8 +15,6 @@ export default function FacebookGroupsPage() {
         <p className="description">
           Connect with Facebook to see your groups
         </p>
-
-        <FacebookGroups />
       </div>
     </div>
   );
