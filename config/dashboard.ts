@@ -33,8 +33,8 @@ export const dashboardConfig: DashboardConfig = {
   mainNav: [],
   sidebarNav: [
     {
-      title: "Groups",
-      href: "/groups",
+      title: "Channels",
+      href: "/channels",
       icon: "users",
     },
     {
