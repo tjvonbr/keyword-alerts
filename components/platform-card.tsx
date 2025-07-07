@@ -1,19 +1,60 @@
 "use client"
 
-import { Platform } from "@prisma/client"
+import { Platform, SocialIntegrations } from "@prisma/client"
 import { Card, CardContent, CardHeader } from "./ui/card"
 import { Icons } from "./icons"
 import { cn } from "@/lib/utils"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 
 interface PlatformCardProps {
+  integrations: SocialIntegrations[]
   platform: Platform
   userId: string
   isConnected: boolean
 }
 
-export function PlatformCard({ platform, userId, isConnected }: PlatformCardProps) {
+export function PlatformCard({ 
+  platform,
+  isConnected 
+}: PlatformCardProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const [isFacebookReady, setIsFacebookReady] = useState(false)
+
+  console.log(isFacebookReady)
+  
+  const { toast } = useToast()
+
+  useEffect(() => {
+    // Load Facebook SDK
+    const loadFacebookSDK = () => {
+      if (window.FB) {
+        console.log('FB is already loaded')
+        setIsFacebookReady(true);
+        return;
+      }
+
+      window.fbAsyncInit = function() {
+        window.FB.init({
+          appId: "1775246439684951",
+          cookie: true,
+          xfbml: true,
+          version: 'v18.0'
+        });
+        setIsFacebookReady(true);
+      };
+
+      // Load the SDK asynchronously
+      const script = document.createElement('script');
+      script.async = true;
+      script.defer = true;
+      script.crossOrigin = 'anonymous';
+      script.src = 'https://connect.facebook.net/en_US/sdk.js';
+      document.head.appendChild(script);
+    };
+
+    loadFacebookSDK();
+  }, []);
 
   const getPlatformIcon = (platformName: string) => {
     switch (platformName.toLowerCase()) {
@@ -45,31 +86,62 @@ export function PlatformCard({ platform, userId, isConnected }: PlatformCardProp
     }
   }
 
+  const handleFacebookLogin = () => {
+    if (!isFacebookReady || !window.FB) {
+      toast({
+        title: "Facebook SDK Error",
+        description: "Facebook SDK is not loaded yet. Please try again in a moment.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    window.FB.login(function (response) {
+      if (response.authResponse) {
+        // Get access token
+        const token = response.authResponse.accessToken;
+        console.log('TOKEN: ', token)
+        window.FB.api(`/${response.authResponse.userID}/groups`, (response) => {
+          console.log(response);
+        });
+      } else {
+        setIsLoading(false);
+        toast({
+          title: "Facebook Login Failed",
+          description: "Facebook login was canceled or failed. Please try again.",
+          variant: "destructive",
+        });
+      }
+    });
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleIntegration = async () => {
     if (isConnected) {
       // Handle disconnection
       return
     }
 
-    setIsLoading(true)
-    
     try {
-      // For now, we'll handle Facebook integration
+      // Handle Facebook integration
       if (platform.name.toLowerCase() === 'facebook') {
-        // This would trigger the Facebook OAuth flow
-        // For now, we'll just simulate the process
-        await new Promise(resolve => setTimeout(resolve, 2000))
-        
-        // In a real implementation, you would:
-        // 1. Redirect to Facebook OAuth
-        // 2. Handle the callback
-        // 3. Save the integration to the database
-        console.log(`Connecting to Facebook for user ${userId}...`)
+        handleFacebookLogin()
+      } else {
+        toast({
+          title: "Platform Not Supported",
+          description: `${platform.name} integration is not yet implemented.`,
+          variant: "destructive",
+        });
       }
     } catch (error) {
       console.error('Integration failed:', error)
-    } finally {
-      setIsLoading(false)
+      toast({
+        title: "Integration Failed",
+        description: "Failed to connect to the platform. Please try again.",
+        variant: "destructive",
+      });
     }
   }
 
@@ -83,7 +155,7 @@ export function PlatformCard({ platform, userId, isConnected }: PlatformCardProp
           ? "border-green-200 bg-green-50/50 dark:bg-green-950/20" 
           : "border-border hover:border-primary/50"
       )}
-      onClick={handleIntegration}
+      onClick={handleFacebookLogin}
     >
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
@@ -137,4 +209,4 @@ export function PlatformCard({ platform, userId, isConnected }: PlatformCardProp
       </CardContent>
     </Card>
   )
-} 
+}
