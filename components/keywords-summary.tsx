@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Channel, Keyword, Platform } from "@prisma/client";
 
-type ChannelWithKeywords = Channel & {
+export type ChannelWithKeywords = Channel & {
   keywords: Keyword[];
   platform: Platform;
 };
@@ -19,7 +19,7 @@ export function KeywordsSummary({ channels }: KeywordsSummaryProps) {
   const platforms = Array.from(new Set(channels.map(channel => channel.platform.name)));
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-8">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Channels</CardTitle>

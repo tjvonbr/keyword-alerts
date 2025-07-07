@@ -1,5 +1,4 @@
 import { MainNav } from "@/components/main-nav"
-import { SiteFooter } from "@/components/site-footer"
 import { dashboardConfig } from "@/config/dashboard"
 
 interface PrivacyPolicyLayoutProps {
@@ -17,7 +16,6 @@ export default async function PrivacyPolicyLayout({
         </div>
       </header>
       <main className="flex-1">{children}</main>
-      <SiteFooter />
     </div>
   )
 }

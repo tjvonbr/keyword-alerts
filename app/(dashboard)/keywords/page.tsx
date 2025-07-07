@@ -2,10 +2,9 @@ import { auth } from "@/auth";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { ChannelsKeywordsList } from "@/components/channels-keywords-list";
-import { KeywordsSummary } from "@/components/keywords-summary";
-import { getChannelsWithKeywordsByUserId } from "@/lib/channels";
-import { redirect } from "next/navigation";
+import { KeywordsSummary } from "@/components/keywords-summary";import { redirect } from "next/navigation";
 import React from "react";
+import { channels } from "@/lib/data/channels";
 
 export default async function KeywordsPage() {
   const session = await auth()
@@ -14,7 +13,7 @@ export default async function KeywordsPage() {
     redirect('/sign-in')
   }
 
-  const channels = await getChannelsWithKeywordsByUserId(session.user.id)
+  // const channels = await getChannelsWithKeywordsByUserId(session.user.id)
 
   return (
     <DashboardShell>
@@ -23,7 +22,10 @@ export default async function KeywordsPage() {
         text="Manage your keyword settings and monitor channels"
       />
       <KeywordsSummary channels={channels} />
-      <ChannelsKeywordsList channels={channels} />
+      <div className="mt-8 grid gap-1">
+        <h3 className="px-2 font-heading text-2xl md:text-3xl">Channels</h3>
+        <ChannelsKeywordsList channels={channels} />
+      </div>
     </DashboardShell>
   );
 }
