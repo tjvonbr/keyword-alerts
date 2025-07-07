@@ -1,21 +1,35 @@
-import Head from "next/head";
+import { auth } from "@/auth";
+import { DashboardHeader } from "@/components/dashboard-header";
+import { DashboardShell } from "@/components/dashboard-shell";
+import EmptyIntegrations from "@/components/empty-integrations";
+import { getIntegrationsByUserId } from "@/lib/integrations";
+import { getPlatforms } from "@/lib/platforms";
+import { redirect } from "next/navigation";
 import React from "react";
 
-export default function LeadsPage() {
-  return (
-    <div>
-      <Head>
-        <title>My Facebook Groups</title>
-        <meta name="description" content="View your Facebook groups" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+export default async function ChannelsPage() {
+  const session = await auth()
 
-      <div>
-        <h1 className="title">My Facebook Groups</h1>
-        <p className="description">
-          Connect with Facebook to see your groups
-        </p>
-      </div>
-    </div>
+  if (!session?.user?.id) {
+    redirect('/sign-in')
+  }
+
+  const integrations = await getIntegrationsByUserId(session?.user?.id)
+  const platforms = await getPlatforms()
+
+  return (
+    <DashboardShell>
+      <DashboardHeader
+        heading="Channels"
+        text={integrations && integrations.length < 1 ? "Connect your social media accounts to start monitoring keywords and finding leads" : "Manage your channels and their settings"}
+      />
+      {integrations && integrations.length < 1 ? (
+        <EmptyIntegrations integrations={integrations} platforms={platforms} session={session}/>
+      ) : (
+        <div className="flex flex-col items-center justify-center h-full">
+          <p>Integrations found</p>
+        </div>
+      )}
+    </DashboardShell>
   );
 }
