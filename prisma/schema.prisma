@@ -21,8 +21,10 @@ model User {
   email     String   @unique
   emailVerified DateTime?
   accounts  Account[]
+  channels Channel[]
   sessions  Session[]
   socialIntegrations SocialIntegrations[]
+  keywords Keyword[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -85,6 +87,7 @@ model Platform {
   id String @id @default(uuid())
   name String
   channels Channel[]
+  keywords Keyword[]
   socialIntegrations SocialIntegrations[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -95,10 +98,34 @@ model Platform {
 model Channel {
   id String @id @default(uuid())
   name String
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  platformId String
+  platform Platform @relation(fields: [platformId], references: [id])
+  keywords Keyword[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("channels")
+}
+
+enum KeywordStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model Keyword {
+  id String @id @default(uuid())
+  name String
+  status KeywordStatus @default(ACTIVE)
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  channelId String
+  channel Channel @relation(fields: [channelId], references: [id])
   platformId String
   platform Platform @relation(fields: [platformId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("channels")
+  @@map("keywords")
 }

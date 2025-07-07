@@ -1,6 +1,7 @@
-import { ArrowRight, ChevronLeft, Earth, Home, Laptop, ListTodo, Moon, NotebookPen, Siren, Star, Sun, X, Loader2, Facebook, Mail, MessageSquareText, Magnet, Users } from "lucide-react";
+import { ArrowRight, BellRing, ChevronLeft, Earth, Home, Laptop, ListTodo, Moon, NotebookPen, Siren, Star, Sun, X, Loader2, Facebook, Mail, MessageSquareText, Magnet, Users } from "lucide-react";
 
 export const Icons = {
+  alert: BellRing,
   arrowRight: ArrowRight,
   earth: Earth,
   frq: NotebookPen,
