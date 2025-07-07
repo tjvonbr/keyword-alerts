@@ -43,9 +43,14 @@ export const dashboardConfig: DashboardConfig = {
       icon: "lead",
     },
     {
-      title: "Messages",
-      href: "/messages",
-      icon: "messages",
+        title: "Messages",
+        href: "/messages",
+        icon: "messages",
+    },
+    {
+      title: "Keywords",
+      href: "/keywords",
+      icon: "alert",
     },
   ],
 }
