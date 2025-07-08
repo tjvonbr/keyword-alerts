@@ -1,4 +1,5 @@
 import { ChannelWithKeywords } from "@/components/keywords-summary";
+import { KeywordStatus } from "@prisma/client";
 
 export const channels: ChannelWithKeywords[] = [
   {
@@ -8,7 +9,14 @@ export const channels: ChannelWithKeywords[] = [
     platformId: "1",
     createdAt: new Date(),
     updatedAt: new Date(),
-    keywords: [],
+    keywords: [
+      { name: 'move out cleaning', id: 'kw1', userId: '1', platformId: '1', createdAt: new Date(), updatedAt: new Date(), status: KeywordStatus.ACTIVE, channelId: '1' },
+      { name: 'move out cleaning services', id: 'kw2', userId: '1', platformId: '1', createdAt: new Date(), updatedAt: new Date(), status: KeywordStatus.ACTIVE, channelId: '1' },
+      { name: 'move out cleaning company', id: 'kw3', userId: '1', platformId: '1', createdAt: new Date(), updatedAt: new Date(), status: KeywordStatus.ACTIVE, channelId: '1' },
+      { name: 'move out cleaning company in scottsdale', id: 'kw4', userId: '1', platformId: '1', createdAt: new Date(), updatedAt: new Date(), status: KeywordStatus.ACTIVE, channelId: '1' },
+      { name: 'move out cleaning company in phoenix', id: 'kw5', userId: '1', platformId: '1', createdAt: new Date(), updatedAt: new Date(), status: KeywordStatus.ACTIVE, channelId: '1' },
+      { name: 'move out cleaning company in arizona', id: 'kw6', userId: '1', platformId: '1', createdAt: new Date(), updatedAt: new Date(), status: KeywordStatus.ACTIVE, channelId: '1' }
+    ],
     platform: {
       id: "1",
       name: "Facebook",
