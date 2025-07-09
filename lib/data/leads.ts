@@ -7,6 +7,7 @@ export interface Lead {
   location: string;
   channelId: string;
   channelName: string;
+  platform: string;
   keywordMatched: string;
   postContent: string;
   postUrl: string;
@@ -27,6 +28,7 @@ export const leads: Lead[] = [
     location: "Scottsdale, AZ",
     channelId: "1",
     channelName: "Scottsdale Real Estate & Community",
+    platform: "Facebook",
     keywordMatched: "move out cleaning",
     postContent: "Hi everyone! I'm moving out of my apartment in Scottsdale next week and need recommendations for a reliable move out cleaning service. My landlord is very particular about the condition. Any suggestions?",
     postUrl: "https://facebook.com/groups/scottsdale-real-estate/posts/123456789",
@@ -44,6 +46,7 @@ export const leads: Lead[] = [
     location: "Phoenix, AZ",
     channelId: "1",
     channelName: "Scottsdale Real Estate & Community",
+    platform: "Facebook",
     keywordMatched: "move out cleaning company in phoenix",
     postContent: "Does anyone know a good move out cleaning company in Phoenix? I'm selling my house and need it spotless for the new buyers. Budget is around $300-400.",
     postUrl: "https://facebook.com/groups/scottsdale-real-estate/posts/123456790",
@@ -61,6 +64,7 @@ export const leads: Lead[] = [
     location: "Tempe, AZ",
     channelId: "1",
     channelName: "Scottsdale Real Estate & Community",
+    platform: "Facebook",
     keywordMatched: "move out cleaning services",
     postContent: "URGENT: Need move out cleaning services for tomorrow! My lease ends and I have to be out by 5pm. Any recommendations for same-day service?",
     postUrl: "https://facebook.com/groups/scottsdale-real-estate/posts/123456791",
@@ -78,6 +82,7 @@ export const leads: Lead[] = [
     location: "Mesa, AZ",
     channelId: "2",
     channelName: "Phoenix Business Network & Leads",
+    platform: "Facebook",
     keywordMatched: "move out cleaning company",
     postContent: "I run a property management company and we're looking for a reliable move out cleaning company to work with on a regular basis. We have properties throughout the Phoenix metro area. Please DM me if you're interested in a business partnership.",
     postUrl: "https://facebook.com/groups/phoenix-business-network/posts/123456792",
@@ -96,6 +101,7 @@ export const leads: Lead[] = [
     location: "Chandler, AZ",
     channelId: "3",
     channelName: "Arizona Entrepreneurs & Startups",
+    platform: "Facebook",
     keywordMatched: "move out cleaning company in arizona",
     postContent: "Starting a new business and need to move out of my current office space. Looking for a professional move out cleaning company in Arizona that can handle commercial spaces. Any recommendations?",
     postUrl: "https://facebook.com/groups/arizona-entrepreneurs/posts/123456793",
@@ -112,6 +118,7 @@ export const leads: Lead[] = [
     location: "Gilbert, AZ",
     channelId: "4",
     channelName: "Mesa Local Business Directory",
+    platform: "Facebook",
     keywordMatched: "move out cleaning",
     postContent: "My tenant just moved out and left the place a mess. Need a move out cleaning service that can handle pet stains and odors. Any local recommendations?",
     postUrl: "https://facebook.com/groups/mesa-local-business/posts/123456794",
@@ -130,6 +137,7 @@ export const leads: Lead[] = [
     location: "Scottsdale, AZ",
     channelId: "1",
     channelName: "Scottsdale Real Estate & Community",
+    platform: "Facebook",
     keywordMatched: "move out cleaning company in scottsdale",
     postContent: "Looking for a move out cleaning company in Scottsdale that specializes in luxury homes. We have a 4-bedroom house that needs to be spotless for the new owners. Budget is flexible for quality work.",
     postUrl: "https://facebook.com/groups/scottsdale-real-estate/posts/123456795",
@@ -146,6 +154,7 @@ export const leads: Lead[] = [
     location: "Tempe, AZ",
     channelId: "5",
     channelName: "Tempe Community & Events",
+    platform: "Facebook",
     keywordMatched: "move out cleaning services",
     postContent: "ASU student here - need move out cleaning services for my apartment near campus. Looking for something affordable but reliable. Any student discounts available?",
     postUrl: "https://facebook.com/groups/tempe-community/posts/123456796",
@@ -163,6 +172,7 @@ export const leads: Lead[] = [
     location: "Phoenix, AZ",
     channelId: "2",
     channelName: "Phoenix Business Network & Leads",
+    platform: "Facebook",
     keywordMatched: "move out cleaning company",
     postContent: "I'm a real estate agent and have a client who needs move out cleaning for a 3-bedroom house in Phoenix. Looking for a company that can provide a certificate of completion for the landlord. Any recommendations?",
     postUrl: "https://facebook.com/groups/phoenix-business-network/posts/123456797",
@@ -180,6 +190,7 @@ export const leads: Lead[] = [
     location: "Peoria, AZ",
     channelId: "1",
     channelName: "Scottsdale Real Estate & Community",
+    platform: "Facebook",
     keywordMatched: "move out cleaning company in arizona",
     postContent: "Need a move out cleaning company in Arizona that can handle a large family home. We have 5 bedrooms, 3 bathrooms, and a finished basement. Looking for someone who can do it all in one day.",
     postUrl: "https://facebook.com/groups/scottsdale-real-estate/posts/123456798",
