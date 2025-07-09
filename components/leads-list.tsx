@@ -1,7 +1,11 @@
+"use client"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { Lead } from "@/lib/data/leads";
-import { ExternalLink, Mail, Phone, MapPin, Calendar, Hash } from "lucide-react";
+import { ExternalLink, Mail, Phone, MapPin, Calendar, Hash, Search } from "lucide-react";
+import { useState } from "react";
 
 interface LeadsListProps {
   leads: Lead[];
@@ -42,6 +46,13 @@ const getStatusLabel = (status: Lead['status']) => {
 };
 
 export function LeadsList({ leads }: LeadsListProps) {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Filter leads based on search term
+  const filteredLeads = leads.filter((lead) =>
+    lead.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   if (leads.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12">
@@ -56,111 +67,144 @@ export function LeadsList({ leads }: LeadsListProps) {
   }
 
   return (
-    <div className="grid gap-6">
-      {leads.map((lead) => (
-        <Card key={lead.id} className="hover:shadow-md transition-shadow">
-          <CardHeader>
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <CardTitle className="text-lg">{lead.name}</CardTitle>
-                  <Badge variant={getStatusColor(lead.status)}>
-                    {getStatusLabel(lead.status)}
-                  </Badge>
+    <div className="space-y-6">
+      {/* Search Filter */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Input
+          placeholder="Search leads by name..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="pl-10"
+        />
+      </div>
+
+      {/* Results count */}
+      {searchTerm && (
+        <div className="text-sm text-muted-foreground">
+          Showing {filteredLeads.length} of {leads.length} leads
+        </div>
+      )}
+
+      {/* No results message */}
+      {searchTerm && filteredLeads.length === 0 && (
+        <div className="flex flex-col items-center justify-center py-12">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-muted-foreground">No leads found</h3>
+            <p className="text-sm text-muted-foreground mt-2">
+              No leads match your search for &quot;{searchTerm}&quot;
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Leads Grid */}
+      <div className="grid gap-6">
+        {filteredLeads.map((lead) => (
+          <Card key={lead.id} className="hover:shadow-md transition-shadow">
+            <CardHeader>
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <CardTitle className="text-lg">{lead.name}</CardTitle>
+                    <Badge variant={getStatusColor(lead.status)}>
+                      {getStatusLabel(lead.status)}
+                    </Badge>
+                  </div>
+                  <CardDescription className="flex items-center gap-4 text-sm">
+                    <div className="flex items-center gap-1">
+                      <MapPin className="h-3 w-3" />
+                      {lead.location}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Hash className="h-3 w-3" />
+                      {lead.keywordMatched}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      {lead.postDate.toLocaleDateString()}
+                    </div>
+                  </CardDescription>
                 </div>
-                <CardDescription className="flex items-center gap-4 text-sm">
-                  <div className="flex items-center gap-1">
-                    <MapPin className="h-3 w-3" />
-                    {lead.location}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Hash className="h-3 w-3" />
-                    {lead.keywordMatched}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Calendar className="h-3 w-3" />
-                    {lead.postDate.toLocaleDateString()}
-                  </div>
-                </CardDescription>
               </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {/* Contact Information */}
-              <div className="flex flex-wrap gap-4">
-                {lead.email && (
-                  <div className="flex items-center gap-2 text-sm">
-                    <Mail className="h-4 w-4 text-muted-foreground" />
-                    <a 
-                      href={`mailto:${lead.email}`}
-                      className="text-blue-600 hover:underline"
-                    >
-                      {lead.email}
-                    </a>
-                  </div>
-                )}
-                {lead.phone && (
-                  <div className="flex items-center gap-2 text-sm">
-                    <Phone className="h-4 w-4 text-muted-foreground" />
-                    <a 
-                      href={`tel:${lead.phone}`}
-                      className="text-blue-600 hover:underline"
-                    >
-                      {lead.phone}
-                    </a>
-                  </div>
-                )}
-                {lead.facebookProfileUrl && (
-                  <div className="flex items-center gap-2 text-sm">
-                    <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                    <a 
-                      href={lead.facebookProfileUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline"
-                    >
-                      Facebook Profile
-                    </a>
-                  </div>
-                )}
-              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {/* Contact Information */}
+                <div className="flex flex-wrap gap-4">
+                  {lead.email && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <Mail className="h-4 w-4 text-muted-foreground" />
+                      <a 
+                        href={`mailto:${lead.email}`}
+                        className="text-blue-600 hover:underline"
+                      >
+                        {lead.email}
+                      </a>
+                    </div>
+                  )}
+                  {lead.phone && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <Phone className="h-4 w-4 text-muted-foreground" />
+                      <a 
+                        href={`tel:${lead.phone}`}
+                        className="text-blue-600 hover:underline"
+                      >
+                        {lead.phone}
+                      </a>
+                    </div>
+                  )}
+                  {lead.facebookProfileUrl && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                      <a 
+                        href={lead.facebookProfileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline"
+                      >
+                        Facebook Profile
+                      </a>
+                    </div>
+                  )}
+                </div>
 
-              {/* Post Content */}
-              <div>
-                <h4 className="font-medium text-sm text-muted-foreground mb-2">Original Post:</h4>
-                <p className="text-sm text-foreground bg-muted/50 p-3 rounded-md">
-                  {lead.postContent}
-                </p>
-              </div>
-
-              {/* Channel Information */}
-              <div className="flex items-center justify-between text-sm text-muted-foreground">
-                <span>Channel: {lead.channelName}</span>
-                <a 
-                  href={lead.postUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-blue-600 hover:underline"
-                >
-                  <ExternalLink className="h-3 w-3" />
-                  View Post
-                </a>
-              </div>
-
-              {/* Notes */}
-              {lead.notes && (
+                {/* Post Content */}
                 <div>
-                  <h4 className="font-medium text-sm text-muted-foreground mb-2">Notes:</h4>
-                  <p className="text-sm text-foreground bg-blue-50 dark:bg-blue-950/20 p-3 rounded-md border-l-2 border-blue-200 dark:border-blue-800">
-                    {lead.notes}
+                  <h4 className="font-medium text-sm text-muted-foreground mb-2">Original Post:</h4>
+                  <p className="text-sm text-foreground bg-muted/50 p-3 rounded-md">
+                    {lead.postContent}
                   </p>
                 </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      ))}
+
+                {/* Channel Information */}
+                <div className="flex items-center justify-between text-sm text-muted-foreground">
+                  <span>Channel: {lead.channelName}</span>
+                  <a 
+                    href={lead.postUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-blue-600 hover:underline"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    View Post
+                  </a>
+                </div>
+
+                {/* Notes */}
+                {lead.notes && (
+                  <div>
+                    <h4 className="font-medium text-sm text-muted-foreground mb-2">Notes:</h4>
+                    <p className="text-sm text-foreground bg-blue-50 dark:bg-blue-950/20 p-3 rounded-md border-l-2 border-blue-200 dark:border-blue-800">
+                      {lead.notes}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 } 
